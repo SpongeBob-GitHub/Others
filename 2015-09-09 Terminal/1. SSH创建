@@ -1,0 +1,95 @@
+SSH：
+
+   		|--> Copyright (c) 2015 Bing Ma.
+  	 	|--> GitHub RUL: https://github.com/SpongeBob-GitHub
+
+================================================================================================
+
+原文教程：https://help.github.com/articles/generating-an-ssh-key/
+
+0、切入到.ssh目录［没有就用mkdir新建一个.ssh文件夹］
+ $ cd ~/.ssh
+
+1、创建SSH：
+ $ ssh-keygen -t rsa -C “xxxx@xxx.com"
+
+Generating public/private rsa key pair.
+
+Enter file in which to save the key (/Users/Belief/.ssh/id_rsa): git_os_rsa
+
+Enter passphrase (empty for no passphrase): 
+
+Enter same passphrase again: 
+
+Your identification has been saved in git_os_rsa.
+
+Your public key has been saved in git_os_rsa.pub.
+
+The key fingerprint is:
+
+07:73:91:05:e4:1b:6b:d4:94:ed:4d:55:50:ae:4a:f8 1605319671@qq.com
+
+The key's randomart image is:
+
++--[ RSA 2048]----+
+
+|         .++oo.o*|
+
+|         ..+. ...|
+
+|        o = .. o.|
+
+|         = =  ...|
+
+|        S * . .  |
+
+|         o o .   |
+
+|            E    |
+
+|                 |
+
+|                 |
+
++-----------------+
+
+
+2、将公钥添加到剪贴板，再添加(粘贴)到网页中
+$ pbcopy < ~/.ssh/git_os_rsa.pub
+# Copies the contents of the git_os_rsa.pub file to your clipboard
+
+2.1、回到github网页，添加SSH的key，将内容直接粘贴上去
+添加SSH到网页上！
+
+3、本地验证：
+ $ eval "$(ssh-agent -s)"
+
+Agent pid 2815
+
+ $ ssh-add ~/.ssh/git_os_rsa
+
+Enter passphrase for /Users/Belief/.ssh/git_os_rsa: 
+
+Identity added: /Users/xxx/.ssh/git_os_rsa (/Users/xxx/.ssh/git_os_rsa)
+
+#验证gitoschina的ssh
+ $ ssh -T git@git.oschina.net
+
+Welcome to Git@OSC, SpongeBob_Han!
+
+#验证github的ssh
+ $ ssh -T git@github.com
+ 
+ 成功显示为：
+ The authenticity of host 'github.com (192.xx.xxx.129)' can't be established.
+RSA key fingerprint is SHA256:nThbg6kXUpJWGsfsIsfCspRomTxdCARLvvdw6E5SY8.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'github.com,192.xx.xxx.129' (RSA) to the list of known hosts.
+Hi SpongeBob-GitHub! You've successfully authenticated, but GitHub does not provide shell access.
+
+＃end 添加ssh完成！
+
+git使用：导入工程：
+$ git clone https://github.com/bartaz/impress.js.git
+
+================================================================================================

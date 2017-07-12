@@ -1,0 +1,107 @@
+Xcode中IOS免证书、真机测试
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+    ​|--> Copyright (c) 2015 Bing Ma.
+
+		​|--> GitHub RUL: https://github.com/SpongeBob-GitHub
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+
+一、购买开发者账号（需要有信用卡、每年支付$99.0）
+
+
+二、直接淘宝购买一个、用于测试，但是不能上传App
+
+1、获取手机的UUID（Identifier xxxxxx9e7ea4dxxxxxxxxb2eaa582b408xxxxxxx）
+
+2、发送给’卖家’，会帮你生成2个文件
+（All_dev_015.mobileprovision 和 All_dev_015.p12）
+
+3、直接双击运行即可！
+
+［PS：具体步骤，淘宝店面中有！］
+
+
+三、＊＊免证书测试＊＊（需要iPhone手机、已越狱）
+
+A、在Cydia中添加源：http://apt.weiphone.com，下载AppSync；
+
+
+
+B、在电脑上创建一个证书，用于为生成的程序签名；
+
+＊ 创建证书
+
+1.打开“钥匙串访问”；
+
+2.菜单栏－－“钥匙串访问-证书助理-创建证书…”；
+
+3.必须：命名为“iPhone Developer”，将类型设定为“代码签名”，将”让我覆盖这些默认值”选中；
+
+
+
+C、打开Terminal命令行
+
+3.1 修改、文件 SDKSettings.plist
+1、进入目录
+$ cd /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/xxxxx.sdk/
+2、备份文件－SDKSettings.plist
+$ sudocp SDKSettings.plist SDKSettings.plist.orig
+3、编辑文件（用Xcode直接打开）
+$ open .
+4、展开DefaultProperties分支，将下面的ENTITLEMENTS_REQUIRED和CODE_SIGNING_REQUIRED两个属性改为NO。
+
+
+3.2 编辑另外一个配置文件Info.plist
+1、$cd /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform 
+2、$sudocp Info.plist Info.plist.orig 
+3、$open .
+4、分别在 DefaultProperties分支下、 RuntimeRequirements分支下和 OverrideProperties分支下，共有3处，将全部的 XCiPhoneOSCodeSignContext修改成 XCCodeSignContext。
+
+
+［PS：提示“SDKSettings.plist” is locked for editing……］
+
+1、原因：用户权限不够；
+
+2、修改xxx.sdk文件夹权限；
+
+$ sudo chmod 777 xxx.sdk
+
+3、修改这个文件夹中，所有文件的读写权限；
+
+$ sudo chmod 777 * 
+
+
+
+D、准备自定义的生成后脚本（需要连接网络）
+1、$ sudo mkdir /Applications/Xcode.app/Contents/Developer/iphoneentitlements 
+2、$ cd /Applications/Xcode.app/Contents/Developer/iphoneentitlements 
+3、$ sudo curl -O http://www.alexwhittemore.com/iphone/gen_entitlements.txt
+4、$ sudo mv gen_entitlements.txt gen_entitlements.py 
+5、$ sudo chmod 777gen_entitlements.py
+
+
+
+E、修改工程设置
+
+［PS：此阶段、需要对每一个工程进行重新配置］
+
+1、禁用Xcode自动的签名操作
+
+工程中，“Build Settings”－“Code signing”－“Don’t Code Sign”
+
+
+
+2、添加自定义的生成后脚本 在Build Phases中添加一个Build Phase，输入以下脚本
+
+export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate
+
+if [ "${PLATFORM_NAME}" == "iphoneos" ] || [ "${PLATFORM_NAME}" == "ipados" ]; then
+
+/Applications/Xcode.app/Contents/Developer/iphoneentitlements/gen_entitlements.py "my.company.${PROJECT_NAME}" "${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${PROJECT_NAME}.xcent";
+
+codesign -f -s "iPhone Developer" --entitlements "${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${PROJECT_NAME}.xcent" "${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/"
+
+fi
+
+详细：http://kuangqi.me/ios/ios-development-without-idp/
