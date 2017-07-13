@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>News - SCMS</title>
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.css">
+  </head>
+  <body ng-app="webapp">
+  <div class="container" ng-controller="NewsController">
+    <h2>News</h2>
+    <div class="row" ng-repeat="news in list">
+      <div class="col-sm-2">
+        <small ng-bind="news.createTime"></small>
+      </div>
+      <div class="col-sm-10">
+        {{news.title}}
+      </div>
+    </div>
+  </div>
+
+    <script type="text/javascript" src="lib/angular/angular.js"></script>
+    <script type="text/javascript" src="lib/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="webapp.js"></script>
+    <script type="text/javascript" src="services/news.client.service.js"></script>
+    <script type="text/javascript" src="controllers/news.client.controller.js"></script>
+  </body>
+</html>

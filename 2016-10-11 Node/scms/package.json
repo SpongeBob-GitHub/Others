@@ -1,0 +1,22 @@
+{
+  "name": "scms",
+  "version": "0.1.0",
+  "description": "cms",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SpongeBob-GitHub/CMS.git"
+  },
+  "keywords": [
+    "cms"
+  ],
+  "author": "mb",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SpongeBob-GitHub/CMS/issues"
+  },
+  "homepage": "https://github.com/SpongeBob-GitHub/CMS#readme"
+}
