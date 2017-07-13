@@ -2,7 +2,6 @@
 
 Learn By my Self.
 
-[PLAN]
 ### 1. Vue
 
 ### 2. Python
@@ -17,6 +16,8 @@ Learn By my Self.
 
 ### 7. Shell Script
 
+
+## 「PLAN」
 
 ```
 
