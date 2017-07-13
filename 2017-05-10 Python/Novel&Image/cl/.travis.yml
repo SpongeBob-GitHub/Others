@@ -1,0 +1,27 @@
+language: node_js
+node_js:
+- "6"  # nodejs的版本
+branches:
+  only:
+  - master  # 设置自动化部署的分支
+before_install:
+- export TZ='Asia/Shanghai'  # 设置时区
+- npm install -g hexo
+- npm install -g hexo-cli
+- openssl aes-256-cbc -K $encrypted_873efb2400b6_key -iv $encrypted_873efb2400b6_iv
+  -in .travis/id_rsa_duke.enc -out .travis/id_rsa_duke -d
+# 设置id_rsa文件权限
+- chmod 600 .travis/id_rsa_duke
+# 添加ssh密钥
+- eval $(ssh-agent)
+- ssh-add .travis/id_rsa_duke
+# 添加ssh配置文件
+- cp .travis/config ~/.ssh/config
+# 设置github账户信息
+- git config --global user.name "dduke" #设置github用户名
+- git config --global user.email 546407233@qq.com #设置github用户邮箱
+# 安装依赖组件
+install:
+- npm install
+script:
+- hexo clean && hexo g && cp CNAME public/CNAME && hexo d

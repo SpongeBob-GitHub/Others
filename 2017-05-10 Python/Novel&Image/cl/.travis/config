@@ -1,0 +1,13 @@
+# github
+Host github.com
+HostName github.com
+PreferredAuthentications publickey
+IdentityFile ~/.ssh/id_rsa_duke
+
+# coding
+Host git.coding.net
+User 546407233@qq.com
+PreferredAuthentications publickey
+IdentityFile ~/.ssh/id_rsa_duke
+StrictHostKeyChecking no
+UserKnownHostsFile = /dev/null

@@ -1,0 +1,1 @@
+0 */1 * * * cd /noval/ && python3 spider.py > noval.log
